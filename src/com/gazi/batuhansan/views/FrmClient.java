@@ -62,7 +62,7 @@ public class FrmClient extends javax.swing.JFrame {
         }
         if(btn_submit.isEnabled()){
             client.stop();
-            //System.out.println("Bağlantı kapandı");
+            
         } 
         System.exit(0);
     }
