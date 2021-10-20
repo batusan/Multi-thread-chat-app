@@ -20,21 +20,13 @@ import javax.swing.text.StyledDocument;
  */
 public class FrmClient extends javax.swing.JFrame {
 
-    /**
-     * Tanımladığım değişkenler Styled document , client classı nesnesi , Kullanıcı adı , myColor kullanıcının yazdığı yazıların renkleri
-     * otherColor ise karşıdan gelen mesajların renklerini tutmaktadır.
-     * Frame üzerinde işlem yaparken client frameinin client classı tarafında ki metotlara ve verilere ulaşabilmesi için nesneleri oluşturdum.
-     */
+
     StyledDocument doc;
     Client client;
     String myUsername;
     Color myColor=Color.GRAY;
     Color otherColor=Color.GRAY;
-    /**
-     * Constructorumuz da mesaj gönderme butonunu devre dışı bırakarak kullanıcının bağlantı kurmadan mesaj atmasını engelliyorum.
-     * add window listener ile kullanıcının sağlıklı bir şekilde sunucudan ayrılmasını ve sunucunun da bundan haberdar olmasını sağlıyoruz.
-     * ve programı güvenli bir şekilde kapatıyoruz.
-     */
+
     public FrmClient() {
         initComponents();
         btn_submit.setEnabled(false);
@@ -45,17 +37,7 @@ public class FrmClient extends javax.swing.JFrame {
         }
        });
     }
-    /**
-     * Bu metotta programımızı kapatmak için ve üstte açıkladığım gibi (bakınız : 33.satır) sağlıklı bir çıkış yapmak için bu metoda ihtiyacımız var.
-     *  EKSTRA : Ekstra bir durum var bu metot için , Client sunucuya girerken bir hatayla karşılaşırsa örneğin aynı isime sahip kullanıcılar aynı anda
-      sunucu da bulunamıyor ve bunu engellemek için sunucuya girilirken bir kontrol gerçekleştiriyorum.
-     *  Bu kontrol sunucu tarafından clientın sunucuya girmesinin mümkün olmadığını ve programı kapatmasını tetikliyor. Error parametresi burdan geliyor eğer ki
-      kullanıcı zorla kapattırılmak zorunda kalırsa "kapat" stringi harici bir değer geldiği zaman kullanıcıya neden giremediğinin sebebini vermiş bulunuyor.
-      * 
-      * Ayrıca eğer sunucuyla bağlantı kurmadıysak , programdan çıkış yapmaya kalktığımızda bağlantımız olmayan bir sunucudan çıktığımızı haber veremiceğimiz için
-       bağlantı kurmadan önce çıkış yaparsak program sadece system.exit olarak çıkıyor.
-     * @param error 
-     */
+
     public void disconnect(String error) {
         if(!error.equals("kapat")){
             JOptionPane.showMessageDialog(null,error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -66,27 +48,13 @@ public class FrmClient extends javax.swing.JFrame {
         } 
         System.exit(0);
     }
-    
-    /**
-     * Eğer ki sohbet anında sunucuda bir aksaklık olursa veya sunucu uygulaması üzerinden kapatılma işlemi başlatılırsa 
-     * istemcilerin sohbet ekranına bir şey göndermeye çalışmamaları için sohbet butonunu ve text fieldını devre dışı bırakıyoruz.
-     */
+
     public void disableChatFeatures(){
         txtArea_MessageBox.setEnabled(false);
         btn_submit.setEnabled(false);
     }   
     
-    /**
-     * Kullanıcının giriş yapmak istediği ismi get text ile aldıktan sonra connect server metoduyla , client nesnemizi oluşturarak 
-     * bu clientı run ettikten sonra sunucuya bağlantı kurmuş oluruz. Client nesnesini thread dışında tutmamızın sebebi olası bir den fazla
-     * thread başlatarak sunucu ile istemci arasında birden fazla veri yolu oluşturarak mesajların gelmesi gereken rotalardan sapmasını engellemek.
-     * 
-     * Ayrıca bağlan tuşunu bağlandıktan sonra kapalı ve textini bağlanıldı hale getiriyoruz.
-     * Ve nihayet kullanıcının mesaj gönderebilmesi için gönder butonunu aktif hale getiriyoruz.
-     * 
-     * 
-     * @param username 
-     */
+
     public void connectServer(String username){
         client = new Client(this,username,"127.0.0.1", 1453);
         new Thread(){
@@ -105,14 +73,7 @@ public class FrmClient extends javax.swing.JFrame {
         btn_submit.setEnabled(true);
     }
     
-    /**
-     * Sync users metodu parametresinde görüldüğü gibi bir arraylist alıyor ve bu alınan arraylisti önce
-     * users text panesini temizleyerek ardından aldığımız userlist arraylistini tek teker yazdırıyor.
-     * 
-     * kullanıcıları dinamik bir şekilde giriş ve çıkışlarını görmemizi sağlayan metot.
-     * 
-     * @param userlist 
-     */
+
     public void SyncUsers(ArrayList<String> userlist){
         txtArea_users.setText(null);
         for (int i = 0; i < userlist.size(); i++) {       
@@ -120,21 +81,7 @@ public class FrmClient extends javax.swing.JFrame {
         }      
     }
     
-    /**
-     * Bu uygulamanın ana metotlarından biri olan , gelen mesajları gönderdiği kişiye bağlı olarak,
-     * sağ veya mesajın sol da gözükmesini sağlayan , text pane üzerinde stil olarak düzenlemeleri yaptığımız
-     * bir metottur.
-     * 
-     * Date Format sayesinde new Date ile oluşturduğum date nesnelerini düzgün bir formatta yazdırabiliyorum.
-     * Gelen username ile global parametremizi kontrol ederek , sunucudan gelen mesajın bizim gönderdiğimiz bir mesaj olup olmadığını kontrol ederek
-     * sağ veya solda yazdırır. Bizim göndermeye çalıştığımız mesajlar direkt olarak bizim ekranımıza yazdırılmaması , sunucu tarafından kontrol edildikten sonra
-     * bizim ekranımıza yazdırılması , bu konuda işi kolaylaştırmıştır.
-     * 
-     * Not : Date Format sayesinde new Date ile oluşturduğum date nesnelerini düzgün bir formatta yazdırabiliyorum.
-     * 
-     * @param username
-     * @param message 
-     */
+
     public void displayMessage(String username,String message,Date date){
         try {
             StyledDocument doc = txtArea_Chat.getStyledDocument();
