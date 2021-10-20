@@ -25,21 +25,10 @@ import javax.swing.text.StyledDocument;
  */
 public class FrmServer extends javax.swing.JFrame {
 
-    /**
-     * Tanımladığım değişkenler Styled document ve server classı nesnesi
-     * Frame üzerinde işlem yaparken server frameinin server tarafında ki metotlara ve verilere ulaşabilmesi için nesneleri oluşturdum.
-     */
+
     StyledDocument doc;
     Server server;
-    /**
-     *   Constructorımızda server nesnemizi oluşturarak sunucumuzun açılma ve diğer tüm işlevlerini yapabilmek için kullanabilmek için gerektiği classı
-       nesnesini oluşturuyoruz.
-     *  Serverin aldığı değerler bulunduğumuz frame'e ulaşması için bu frame'i referanslıyoruz ve 2.olarak portu gönderiyoruz.
-     *  Altında bir thread yani işlem parçacığı oluşturarak sunucuyu çalıştırdığımız an da GUI nesnelerimizin ve frame'in kendi işlevlerine devam edip
-      tıkanmaması için bir paralel yolda giden işlem oluşturuyoruz. Bu sayede server nesne run edildiği anda çalışan while döngüsü yüzünden uygulamamaız donmamış 
-      oluyor.
-      * Sunucu açılış anında bir hata alırsak onu option pane ile kullanıcıya hatayı yansıtıyoruz.
-     */
+
     public FrmServer() {
         initComponents();
         server = new Server(FrmServer.this,1453);
@@ -54,11 +43,7 @@ public class FrmServer extends javax.swing.JFrame {
                 }
             }
         }.start();
-        /**
-         *  Add window listener ile eğer programı kapatmaya kalkarsak tüm kullanıcılarına sunucunun kapanıyor olduğunu ve 
-          istemcilerin konuşma hizmetlerini butonlarını ve text arealarını dondurarak işlem yapamamalarını sağladığım bir metotu devreye sokuyorum.
-          Bu sayede kullanıcılar sunucu devre dışı kaldıktan sonra bir mesaj gönderme yetisine sahip olmuyacaklar.
-         */
+
         this.addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent evt) {
           stopServer();
@@ -66,12 +51,7 @@ public class FrmServer extends javax.swing.JFrame {
        });
     }
     
-    /**
-     * 
-     * Bu metot string parametresi alarak log mesajlarını ekrana yansıtılmasını sağlıyor.
-     * Bu metot txtArea_log adlı nesneyi düzenleyerek mesajların gri renkli gelmesini sağlıyor
-     * 
-     */
+
     public void addLogToList(String log){    
         try {
             StyledDocument doc = txtArea_log.getStyledDocument();
@@ -87,12 +67,7 @@ public class FrmServer extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * Parametresi users adlı bir arraylist olan bu metot , dinamik bir şekilde sunucu üzerinde aktif kullanıcılar listesini görülmesini sağlıyorum
-     * Her giriş çıkış eylemi yapıldığı an aktif kullanıcılar listesini temizleyerek üstüne yeniden şu an aktif olarak bulunan kullanıcıları sıralıyorum.
-     * 
-     * @param users 
-     */
+
     public void addUserToList(ArrayList<String> users){
         txtArea_userList.setText(null);
         try {
