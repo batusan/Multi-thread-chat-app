@@ -24,16 +24,6 @@ import java.util.ArrayList;
  */
 
 
-/**
- * Parametrelerimiz 
- * Bağlanıcağımız ip adresi , port bağlanıcağımız port adresimiz , string username kullanıcı adımız , client bağlantı kurmamızı sağlayan socket nesnesini temsil eder.
- * FrmClient ise client classı üzerinden frame üzerinde yapmamız gereken değişiklikleri uygulamamız için kullancağımız referansın değişkeni.
- * İnput ve output streamler , classın farklı noktalarında bu değerleri kullanabilmemiz için metot dışına çıkararak bir global değişkene atıyoruz.
- * isClosed sunucu ile hala bağlantı içinde mi olduğumuzun durumunu kontrol ettiğimiz değişken
- * 
- * 
- * 
- */
 public class Client {
         private String host;
 	private int port;
@@ -51,19 +41,7 @@ public class Client {
                 this.nickname = nickname;
 	}
 
-        /**
-         * 
-         * Socket ile sunucumuza bağlanıyoruz.
-         * Kurduğumuz bağlantıların output streamlerini ve input streamlerini nesnelerin gönderilebilceği 
-         * objectinput a çeviriyoruz.
-         * 
-         * ve yeni bir işlem parçacığı oluşturuyoruz. işlem parçacığı , bir metot veya bir iş sırasında farklı işlemlere paralel olarak
-         * yürütülmesi gereken işlemleri kitlemeden yürütülmesini sağlar.Bu sayede Client metotlarından while döngüsü dönerken farklı metotlar çağırarak kullanabiliyoruz.
-         * 
-         * ardından bağlandığımız an join tipinde bir message objesi göndererek sunucuya katıldığımızı belirtiyoruz.
-         * 
-         * 
-         */
+   
         public void run() throws UnknownHostException, IOException {
 		// connect client to server
 		client = new Socket(host, port);
@@ -72,7 +50,7 @@ public class Client {
 		                
                 InputStream inputStream = client.getInputStream();
                 objInStream = new ObjectInputStream(inputStream);
-		// create a new thread for server messages handling
+		
 		new Thread(new MessageListener(this,clientFrm,objInStream,isClosed)).start();
 
 		// get nickname
@@ -82,13 +60,7 @@ public class Client {
 
 	}
         
-        /**
-         * Durdurma işlemlerini yaptığımız metot, durdurma işlemini yaparken sunucununda bundan haberdar olması için
-         * sunucuya left message objesi göndererek kullanıcının ayrıldığını belirtiyoruz ve socketleri streamleri kapatıyorz.
-         * 
-         * Ardından system.exit ile programı sonlandırıyoruz.
-         * 
-         */
+
         public void stop(){
             try{
                 objOutStream.writeObject(new Message("left",nickname,""));
@@ -104,20 +76,8 @@ public class Client {
                     
         }
         
-        /**
-         * 
-         * Mesaj gönderme metotumuz , her türlü mesajı , özel mesajı gönderen metodumuz.
-         * Output stream .write object sayesinde verileri sunucuya gönderdiğimiz metottur.
-         * 
-         * eğer /kapat yazarsınız sunucuya ,bunu okuyan client sunucuya mesaj göndermez ve stop metotu devreye girer.
-         * 
-         * eğer /pm *kullanıcı adı* *mesaj* şeklinde girerseniz girdiğiniz *kullanıcı adı* 'nı ve *mesaj* ı pm tipinde gönderir.
-         * 
-         * pm gönderirken kullanıcı adını ayrı bir şekilde almak için tüm mesaj satırını boşluklara göre ayırarak /pm den sonraki ilk kelimeyi username e karşılık
-         * alıyorum ve bu sayede hedef kullanıcı adına karşılık bir kişi adı almış oluruz.
-         * 
-         * @param message 
-         */
+     
+
         public void SendMessage(String message) {
             try {
                 if(message.equals("/kapat")){
