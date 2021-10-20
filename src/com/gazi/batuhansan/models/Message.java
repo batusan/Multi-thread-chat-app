@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.gazi.batuhansan.models;
 
 import java.io.Serializable;
@@ -16,17 +11,7 @@ import java.util.Date;
  */
 public class Message implements Serializable{
     
-    /**
-     * Serializable implement ederek ağ üzerinde gönderdiğimiz verileri tekrar edilebilir olmasını ve birden fazla kez kullanabilmemizi sağlar.
-     * Ayrıca bu model sunucu ve istemci arasında ki tüm işlemler de farklı şekiller de şekillendirilerek kullanılıyor.
-     * Farklı tiplerde iletiler gönderilmesini sağlayan bu tip.
-     * Kullanıcı girişlerini , çıkışlarını , mesaj gönderme eylemlerini , aktif kullanıcı listelerini taşıma gibi bir çok görevde kullanılmıştır.
-     * 
-     * Değişkenlerimiz iletişim sırasında çok yönlü olması için farklı tiplerde mesaj gönderilebilir olmasını sağladım.
-     * 2 kullanıcı arasında gerçekleşen mesajlaşmalar farklı bir tür.
-     * Sunucunun zoraki bir yöntemle bağlantıyı kesmesine kadar bir çok farklı işlem.
-     * 
-     */
+    
     private String type;
     private String username;
     private String message;
