@@ -34,7 +34,6 @@ public class MessageListener implements Runnable{
 
 	@Override
 	public void run() {
-                //veri geldi
                 
 		while (!(isClosed)) {
                     try {
