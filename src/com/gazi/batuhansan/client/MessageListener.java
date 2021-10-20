@@ -17,12 +17,6 @@ import java.io.ObjectInputStream;
 
 
 
-/**
- * Thread yapısını kullanabilmek için thread sınıfını kalıtım yoluyla veya runnable interfaceini implement yoluyla kullanmamız gerekir.
- * 
- *  Değişkenlerim Objectinput streami her yerde kullanabilmek için , client frameinde değişiklikler yapabilmek için , isClosed sunucu ile bağlantı kapanmış mı diye kontrol etmek için 
- * Client ise client classına erişebilmek için kullanıldı.
- */
 public class MessageListener implements Runnable{
         private ObjectInputStream server;
         private FrmClient frmClient;
@@ -37,27 +31,7 @@ public class MessageListener implements Runnable{
         }
 
         
-        /**
-         * 
-         * Sunucu tarafından gelen nesneleri dinleyerek ona göre farklı işlemler yapabilmek için kullandığım metottur.
-         * Bir threaddir o yüzden while döngüsü dönerken bir işleme engel olmamaktadır.
-         * 
-         * read object ile dinlediğimiz nesneleri tiplerine göre farklı işlemler yaptırırız.
-         * 
-         * eğer message ise chat ekranını yazdırır.
-         * 
-         * eğer join ise bir kullanıcının geldiğini ve katıldığını chat ekranına yazar.
-         * 
-         * eğer syncUser ise aktif kullanıcı listesinin senkronize edilmesi gerekir ve gelen arraylist ile client aktif kullanıcı listesi
-         * yenilenir bu sayede dinamik bir yapı oluşur.
-         * 
-         * eğer shutdown ise sunucu ile bağlantı kopmasının ardından mesajlaşma butonlarının ve textboxları deaktif hale getirilir.
-         * 
-         * eğer namechange ise aynı isimde birinin olduğu ve bu yüzden sunucuya giremediğimizi gösterir. Ve sunucu bizi uzaklaştırır tekrar bağlanmamız gerekir.
-         * 
-         * eğer pm ise biri özel mesaj yoluyla clienta mesaj göndermiş demektir.
-         * 
-         */
+
 	@Override
 	public void run() {
                 //veri geldi
